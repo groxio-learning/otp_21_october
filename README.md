@@ -34,9 +34,9 @@ Don't save this for the last minute! There are a few dependencies that will give
 
 1. Fork this repository to your github account. 
 
-- Go to https://github.com/groxio-learning/otp_27may 
+- Go to https://github.com/groxio-learning/otp_21_october 
 - Click the `fork` button in the upper right corner
-- Navigate to *your local version* (at something like https://github.com/your-github-account/otp_27may )
+- Navigate to *your local version* (at something like https://github.com/your-github-account/otp_21_october )
 - copy the clone address to your clipboard. In the upper right, click `clone or download` then `copy to clipboard`
 
 2. Clone your local version to your local machine. 
@@ -61,7 +61,7 @@ $ git remote -v
 - If there's no origin, set it. Make sure you *replace your-github-account*:
 
 ```
-otp_27may> git remote add origin https://github.com/your-github-account/otp_21_october.git
+otp_21_october> git remote add origin https://github.com/your-github-account/otp_21_october.git
 ```
 
 - Verify your remote: 
