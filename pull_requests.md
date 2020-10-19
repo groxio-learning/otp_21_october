@@ -1,1 +1,2 @@
 Yuri Oliveira
+Sigu Magwa
