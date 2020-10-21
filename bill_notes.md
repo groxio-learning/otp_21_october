@@ -74,6 +74,19 @@ mkdir lib/adderall/boundary
 touch lib/adderall/boundary/service.ex
 ```
 
+Since elixir doesn't allow mutation we use iteration instead
+```
+def run(count_value) do
+  count_value
+  |> listen()  # waits for a transform instruction and send on to run
+  |> run()     # this sends back the value from listen back to itself
+end
+```
+
+* the important thing is that the run is loop that receives its state and waits and listens for the next message
+
+**USING the Boundary Layer**
+
 ```
 iex -S mix
 
@@ -88,7 +101,73 @@ iex -S mix
 9> send pid, {:get, self}
 9> send pid, :increment
 9> send pid, {:get, self}
-10> receive do message -> IO.puts message end  # our own flush method
+10> receive do message -> IO.puts message end    # our own flush method
+
+11> fetch_mail = fn -> receive do m -> m end end # create own way to get mail as Anonymous function
+
+12> send self, "all good"  # send myself a text message
+13> fetch_mail.()
+"all good"
 ```
 
-## Round 3: abstracting send / flush
+## Round 3: abstracting send / flush (API layer)
+
+modify the main code to interact with the boundary (create the API layer)
+
+```
+vim lib/adderall.ex
+```
+
+* from iex we needed to **start** the process (with an option to initalize a value)
+* from iex we needed to **increment** (which knows the process_pid - which knows its state)
+* from iex we needed to **get** the value (we send it a message and wait for the response - with the `receive`)
+
+
+**USAGE after building API**
+```
+iex -S mix
+
+> minion1 = Adderall.start()
+> minion2 = Adderall.start(42)
+
+> Adderall.increment(minion1)
+> Adderall.get(minion1)
+1
+
+> Adderall.increment(minion2)
+> Adderall.increment(minion2)
+> Adderall.get(minion2)
+43
+
+> Adderall.get(minion1)
+1
+```
+
+## Experiment 1: accounts that can transfer between processes
+
+
+
+
+## Round 4: using GenServer
+
+```
+touch lib/boundary/server.ex
+
+iex -S mix
+
+h GenServer  # put modified code into server.ex
+
+# see code example at the top:
+
+# USAGE
+
+1> {:ok, pid} = GenServer.start_link(Adderall.Boundary.Server, 42)
+
+2> GenServer.cast(pid, :inc)  # send our increment to the GenServer API
+
+3> :sys.get_state pid  # debugging way to peek on GenServer processes
+
+4> GenServer.call(pid, :get)  # standard way to access GenServer state
+```
+
+`use GenServer` calls the code (macro dump) https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/gen_server.ex all this is based on the code concepts from this morning.
