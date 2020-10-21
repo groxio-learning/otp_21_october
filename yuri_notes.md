@@ -19,6 +19,10 @@ Bees
 * Reducers      -> takes an accumulator and returns the transformed accumulator (of the same type)
 * Converters
 
+## On API
+
+* Backpressure: slowing down the client requests to avoid overwhelming the server due to how fast it is to pass messages around
+
 ---
 
 # Notes from OTP Module
