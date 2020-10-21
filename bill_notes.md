@@ -171,3 +171,25 @@ h GenServer  # put modified code into server.ex
 ```
 
 `use GenServer` calls the code (macro dump) https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/gen_server.ex all this is based on the code concepts from this morning.
+
+**Init** method allows 3 things:
+1) check all is ok (or fail)
+2) do a lookup or transform to get started
+3) if 1 (bad data) and or 2 (lookup times out) then explain fail
+
+
+## Round 5 - adding an API in the server
+
+update: `vim lib/boundary/server.ex` with API to call handlers
+
+usage:
+
+```
+{;ok. counter} = GenServer.start_link(42)
+
+:sys.get_state counter
+
+Server.increment(counter)
+
+Server.get(counter)
+```
