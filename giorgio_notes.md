@@ -60,3 +60,20 @@ iex(19)> flush
 :ok
 iex(20)>
 ```
+
+## Day 1 wrap up
+
+Learned:
+- Do fun things with big loud worker bees
+- Data, function, test, boundary, lifecycle
+- Use tab on iex rep
+- bind the last returned value to a variable using `v <iex line_number>`
+- how we can write a GenServer using spawn, send and receive
+- 3 structures: constructor, reducer and converter
+
+Expect to learn:
+- more tricks
+- how to leave with valey and go to pipe valey
+- When not to GenServer
+- backpressure
+- Magic with Enum
