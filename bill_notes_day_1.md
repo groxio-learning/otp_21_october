@@ -1,6 +1,6 @@
-Notes for Bill Tihen
+# Day 1: Notes by Bill Tihen
 
-# Core Concepts
+## Core Concepts  
 
 **D**o **F**un **T**hings with **B**ig **W**orkerbees
 
