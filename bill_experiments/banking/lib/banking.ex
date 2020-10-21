@@ -9,7 +9,9 @@ defmodule Banking do
 
   # response: {:ok}
   def deposit(account, amount),   do: Service.deposit(account, amount)
+  
   def withdrawl(account, amount), do: Service.withdrawl(account, amount)
+
   def transfer(from_account, to_account, amount) do
     Service.transfer(from_account, to_account, amount)
   end
