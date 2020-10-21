@@ -23,5 +23,9 @@ iex(9)> send self, :ola
 :ola
 iex(10)> listener.()
 :ola
-iex(11)> 
+iex(11)>
 ```
+
+
+## Notes about back pressure
+
