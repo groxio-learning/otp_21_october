@@ -193,3 +193,57 @@ Server.increment(counter)
 
 Server.get(counter)
 ```
+
+
+## Round 6: Master mind logic / design
+
+Practice game at: https://www.webgamesonline.com/mastermind/
+
+**Design** - to clarify
+
+* will have guess module
+* will have board module
+
+```
+# for testing use a defined answer
+answer = [1, 2, 3, 4]
+
+# get 4 random colors no repeats allowed
+(1..8) |> Enum.shuffle |> Enum.take(4)
+
+# get a single random number (between 1 & 8)
+:rand.uniform(8)
+
+# get random numbers on demand (as an Anonymous function)
+random_number = fn -> :rand.uniform(8) end
+
+# use a stream to get random numbers on demand (allowing repeats)
+stream_1 = Stream.repeatedly(random_number)
+
+# grab just four as our guess
+guess = stream_1 |> Enum.take(4)
+
+guess  = [5, 7, 2, 4]
+
+# find the correct colors in the correct spot
+correct = answer |> Enum.zip(guess) |> Enum.filter(fn {x, y} -> x == y end) | Enum.count
+
+# or better yet
+red = answer |> Enum.zip(guess) |> Enum.count(fn {x, y} -> x == y end)
+
+# completely wrong (take away all the correct answers from the guesses - leaves only wrong stuff)
+misses = (guess -- answer) |> Enum.count
+
+# count all spots
+size = Enum.size(answer)
+
+# now we can find the correct color wrong spot  score
+white = size - correct - misses
+```
+
+Study the `with` command:
+
+* https://joyofelixir.com/12-conditional-code
+* https://openmymind.net/Elixirs-With-Statement/
+* https://til.hashrocket.com/posts/ipq42kdcx8-with-statement-has-an-else-clause
+* https://blog.sundaycoding.com/blog/2017/12/27/elixir-with-syntax-and-guard-clauses/
