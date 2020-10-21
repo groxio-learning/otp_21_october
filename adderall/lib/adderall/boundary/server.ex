@@ -6,9 +6,10 @@ defmodule Adderall.Boundary.Server do
   # Callbacks
 
   @impl true
-  def init(count)  when is_integer(count) do
+  def init(count) when is_integer(count) do
     {:ok, count}
   end
+
   def init(_count), do: {:error, :blow_up}
 
   @impl true
@@ -20,4 +21,12 @@ defmodule Adderall.Boundary.Server do
   def handle_cast(:inc, count) do
     {:noreply, Counter.increment(count)}
   end
+
+  # APIs
+
+  def start_link(count), do: GenServer.start_link(__MODULE__, count)
+
+  def increment(counter), do: GenServer.cast(counter, :inc)
+
+  def get(counter), do: GenServer.call(counter, :get)
 end
