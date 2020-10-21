@@ -142,3 +142,32 @@ iex -S mix
 > Adderall.get(minion1)
 1
 ```
+
+## Experiment 1: accounts that can transfer between processes
+
+
+
+
+## Round 4: using GenServer
+
+```
+touch lib/boundary/server.ex
+
+iex -S mix
+
+h GenServer  # put modified code into server.ex
+
+# see code example at the top:
+
+# USAGE
+
+1> {:ok, pid} = GenServer.start_link(Adderall.Boundary.Server, 42)
+
+2> GenServer.cast(pid, :inc)  # send our increment to the GenServer API
+
+3> :sys.get_state pid  # debugging way to peek on GenServer processes
+
+4> GenServer.call(pid, :get)  # standard way to access GenServer state
+```
+
+`use GenServer` calls the code (macro dump) https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/gen_server.ex all this is based on the code concepts from this morning.
