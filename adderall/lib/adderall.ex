@@ -1,18 +1,20 @@
 defmodule Adderall do
-  @moduledoc """
-  Documentation for `Adderall`.
-  """
+  alias Adderall.Core.Counter
+  alias Adderall.Boundary.Service
 
-  @doc """
-  Hello world.
+  def start(count \\ Counter.new()) do
+    Service.start(count)
+  end
 
-  ## Examples
+  def increment(counter) do
+    send(counter, :increment)
+  end
 
-      iex> Adderall.hello()
-      :world
+  def get(counter) do
+    send(counter, {:get, self()})
 
-  """
-  def hello do
-    :world
+    receive do
+      message -> message
+    end
   end
 end
