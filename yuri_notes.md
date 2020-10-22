@@ -61,3 +61,6 @@ iex(18)> Agent.update(agent, &(&1+1))
 
 > Process.alive? task.pid
 ```
+
+
+Do not use structs around the params and the boundary, don't expose internal data
