@@ -252,22 +252,54 @@ iex(26)> Enum.all?(answers, valid_answer)
 
 
 ```
+  describe "new/0 Property based testing" do
 
-  describe "new/0 - with property tests" do
+    test "random_answers should have valid properties" do
+      answers =
+        create_answersanswers(1000)
+        |> valid_answers?()
 
+      assert validate_length(answers)
+      assert validate_set_memebers(answers)
+      assert validate_no_duplicates(answers)
+    end
   end
 
-  def answers(size) do
-    make_answer = fn -> 1..8 |> Enum.shuffle |> Enum.take(4) end
-    answers = Stream.repeatedly(make_answer) |> Enum.take(size)
-    # [[5, 6, 1, 8], [3, 4, 1, 6], [5, 3, 4, 6], [6, 3, 5, 2], [3, 8, 4, 5]]
+  def create_answers(size \\ 5) do
+    Stream.repeatedly(&Board.random_answer/0)  # fix this should pass in
+    |> Enum.take(size)
   end
 
-  def valid?(answers) do
-    valid_answer = fn answer -> length(answer) == length(Enum.uniq(answer)) end
-    # valide_answer.(answer)
-    # true
+  def validate_length(answers) do
+    valid_answer = fn answer -> length(answer) == 4 end
     Enum.all?(answers, valid_answer)
   end
+
+  def validate_set_memebers(answers) do
+    valid_element = fn element -> Enum.member?((1..8), element) end
+    valid_answer  = fn answer -> Enum.all?(answer, valid_element) end
+    Enum.all?(answers, valid_answer)
+  end
+
+  def validate_no_duplicates(answers) do
+    valid_answer = fn answer -> length(answer) == length(Enum.uniq(answer)) end
+    Enum.all?(answers, valid_answer)
+  end
+```
+
+Integration Tests - be sure our
+
+```
+alias Mindex.Core.Board
+
+b = Board.new()
+
+b |> Board.move([1,2,3,4]) |> Board.move([4,3,7,1]) |> Board.to_string()
+
+```
+
+Pull together with a GenServer and try it
+
+```
 
 ```
