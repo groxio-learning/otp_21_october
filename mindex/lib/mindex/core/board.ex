@@ -18,7 +18,7 @@ defmodule Mindex.Core.Board do
     %{won: won?(board), lost: lost?(board), rows: rows(guesses, answer)}
   end
 
-  defp rows(guesses, answer), do: Enum.map(guesses, fn guess -> row(guess, answer) end)
+  defp rows(guesses, answer), do: Enum.map(guesses, &row(&1, answer))
 
   defp row(guess, answer), do: %{guess: guess, score: Score.new(guess, answer)}
 
@@ -31,8 +31,7 @@ defmodule Mindex.Core.Board do
 
   defp print_row(%{guess: guess, score: score}) do
     print_guess(guess)
-    IO.inspect("Reds: #{score.red}")
-    IO.inspect("Whites: #{score.white}")
+    Score.render_string(score)
   end
 
   def print_guess([a, b, c, d]) do
