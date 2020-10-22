@@ -1,6 +1,6 @@
 # Day 1: Notes by Bill Tihen
 
-## Core Concepts  
+## Core Concepts
 
 **D**o **F**un **T**hings with **B**ig **W**orkerbees
 
@@ -306,6 +306,7 @@ Banking.deposit(savings, 500)
 Banking.withdrawl(checking, 50)
 
 Banking.transfer(savings, checking, 150)
+Banking.transfer(savings, checking, 15000)
 
 Banking.balance(savings)
 Banking.balance(checking)
