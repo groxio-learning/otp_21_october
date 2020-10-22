@@ -8,7 +8,7 @@ defmodule Adderall.Application do
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: Adderall.Worker.start_link(arg)
-      # {Adderall.Worker, arg}
+      {Adderall.Boundary.Server, Adderall.Core.Counter.new()}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
