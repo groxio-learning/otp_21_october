@@ -77,3 +77,13 @@ Expect to learn:
 - When not to GenServer
 - backpressure
 - Magic with Enum
+
+## Day 2
+
+- Lifecycle
+- How to use better the core of Elixir/OTP to balance better `with` and `|>`.
+- Backpressure
+- When not to GenServer: for object processes;
+- Constructor, reducer, converter (transform into something else) => composable functions.
+- use GenServer to do parallel work, not objects
+- property based tests
