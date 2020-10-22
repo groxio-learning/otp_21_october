@@ -25,4 +25,28 @@ defmodule Mindex.Core.BoardTest do
 
   describe "move/2" do
   end
+
+  def answers(size \\ 5) do
+
+    Stream.repeatedly(&Board.random_answer/0)
+    |> Enum.take(size)
+  end
+
+  def valid_answers?(answers) do
+    valid_answer = fn answer -> length(answer) == length(Enum.uniq(answer)) end
+    Enum.all?(answers, valid_answer)
+  end
+
+  describe "new/0 Property based testing" do
+
+    test "result answers should be valid" do
+      result =
+      answers(1000)
+        |> valid_answers?()
+
+      assert result
+    end
+  end
+
+
 end
