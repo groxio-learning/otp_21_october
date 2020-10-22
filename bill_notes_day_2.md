@@ -26,3 +26,8 @@ Server.get
 ```
 
 This is just limited to ONE prcess since all are named after the server
+
+
+## Round 2: Start coding mindmaster - the game
+
+mkdir 
