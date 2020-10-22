@@ -1,14 +1,23 @@
 defmodule Adderall.Boundary.Server do
+  alias Adderall.Core.Counter
+
   use GenServer
 
-  alias Adderall.Core.Counter
+  # API
+
+  def start_link(count \\ Counter.new()), do: GenServer.start_link(__MODULE__, count)
+
+  def increment(counter), do: GenServer.cast(counter, :inc)
+
+  def get(counter), do: GenServer.call(counter, :get)
 
   # Callbacks
 
   @impl true
-  def init(count)  when is_integer(count) do
+  def init(count) when is_integer(count) do
     {:ok, count}
   end
+
   def init(_count), do: {:error, :blow_up}
 
   @impl true

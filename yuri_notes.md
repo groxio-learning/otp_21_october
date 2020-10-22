@@ -15,9 +15,9 @@ Bees
 
 ## On Data and Functions
 
-* Constructors  -> initiate state (?)
-* Reducers      -> takes an accumulator and returns the transformed accumulator (of the same type)
-* Converters
+* Constructors            -> initiate state (?)
+* Reducers                -> takes an accumulator and returns the transformed accumulator (of the same type)
+* Converters/Transformers
 
 ## On API
 
