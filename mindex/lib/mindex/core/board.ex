@@ -12,19 +12,30 @@ defmodule Mindex.Core.Board do
 
   def move(board, guess), do: %{board | guesses: [guess | board.guesses]}
 
-  def to_string(board), do: board |> status() |> build_string
+  def to_string(board), do: board |> status() |> build_string()
 
-  defp status(%{answer: answer, guesses: [guess | _tail] = rows}) when length(rows) < 10 do
-    %{red: red} = Score.new(guess, answer)
-
-    %{rows: rows, won: red == length(answer), lost: false}
+  defp status(%{answer: answer, guesses: guesses} = board) do
+    %{won: won?(board), lost: lost?(board), rows: rows(guesses, answer)}
   end
 
-  defp status(%{answer: answer, guesses: [guess | _tail] = rows}) do
-    %{white: white} = Score.new(guess, answer)
+  defp rows(guesses, answer), do: Enum.map(guesses, fn guess -> row(guess, answer) end)
 
-    %{rows: rows, won: white == 0, lost: white > 0}
+  defp row(guess, answer), do: %{guess: guess, score: Score.new(guess, answer)}
+
+  def won?(%{guesses: [answer | _guesses], answer: answer}), do: true
+  def won?(_board), do: false
+
+  def lost?(board), do: !won?(board) and length(board.guesses) == 10
+
+  defp build_string(%{rows: rows}), do: Enum.map(rows, &print_row/1)
+
+  defp print_row(%{guess: guess, score: score}) do
+    print_guess(guess)
+    IO.inspect("Reds: #{score.red}")
+    IO.inspect("Whites: #{score.white}")
   end
 
-  defp build_string(_status), do: ""
+  def print_guess([a, b, c, d]) do
+    IO.inspect("Guess: #{a}, #{b}, #{c}, #{d}")
+  end
 end

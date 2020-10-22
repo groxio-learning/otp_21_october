@@ -60,3 +60,35 @@ Supervisor must restart the processes with a known working state
 Bruce talk about back pressure
 
 [Railway programming reference](https://medium.com/elixirlabs/railway-oriented-programming-in-elixir-with-pattern-matching-on-function-level-and-pipelining-e53972cede98)
+
+## Generating random numbers
+
+### Unique numbers
+
+```elixir
+1..8 |> Enum.shuffle |> Enum.take(4)
+```
+
+### Repeated numbers
+
+```elixir
+random_number = fn -> :random.uniform(8) end
+Stream.repeatedly(random_number)
+Stream.repeatedly(random_number) |> Enum.take(4)
+```
+
+misses = (guess -- answer)
+
+Core
+Boundary
+Client
+
+No queries on the core, because that fails and it's not pipeable
+
+# Day 2
+
+Supervisor works as a registry.
+It knows how to start and stop things, and their names.
+
+How to decide the first function argument for piping?
+Take a look at the main type of the core.
