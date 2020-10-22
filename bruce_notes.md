@@ -194,3 +194,132 @@ iex(41)> size
 iex(42)> misses
 2
 ```
+
+
+## property based test idea
+
+```
+iex(1)> reds = 3
+3
+iex(2)> Stream.repeatedly(fn -> 'R' end) |> Enum.take(reds)
+['R', 'R', 'R']
+iex(3)> Stream.repeatedly(fn -> ?R end) |> Enum.take(reds) 
+'RRR'
+iex(4)> Stream.repeatedly(fn -> ?R end) |> Enum.take(reds) |> to_string 
+"RRR"
+iex(5)> "RRR" == 'RRR'
+false
+iex(6)> is_list 'RRR'
+true
+iex(7)> is_list "RRR"
+false
+iex(8)> "RRR"
+"RRR"
+iex(9)> i
+Term
+  "RRR"
+Data type
+  BitString
+Byte size
+  3
+Description
+  This is a string: a UTF-8 encoded binary. It's printed surrounded by
+  "double quotes" because all UTF-8 encoded code points in it are printable.
+Raw representation
+  <<82, 82, 82>>
+Reference modules
+  String, :binary
+Implemented protocols
+  Collectable, IEx.Info, Inspect, List.Chars, String.Chars
+iex(10)> [?c]
+'c'
+iex(11)> [?b|[?c]]
+'bc'
+iex(12)> [?a|[?b|[?c]]]
+'abc'
+iex(13)> <<1, 2, 3>>
+<<1, 2, 3>>
+iex(14)> <<?d, ?o, ?g>>
+"dog"
+iex(15)> is_binary "dog"
+true
+iex(16)> is_binary 'dog'
+false
+iex(17)> make_score = fn -> 1..8 |> Enum.shuffle |> Enum.take(4) end
+#Function<21.126501267/0 in :erl_eval.expr/5>
+iex(18)> make_score.()
+[5, 2, 8, 4]
+iex(19)> make_score.()
+[1, 6, 5, 3]
+iex(20)> scores = Stream.repeatedly(make_score) |> Enum.take(5)
+[[1, 6, 3, 2], [3, 7, 4, 6], [6, 5, 2, 4], [6, 5, 7, 8], [8, 5, 7, 3]]
+iex(21)> make_answer = fn -> 1..8 |> Enum.shuffle |> Enum.take(4) end
+#Function<21.126501267/0 in :erl_eval.expr/5>
+iex(22)> answers = Stream.repeatedly(make_answer) |> Enum.take(5)    
+[[5, 6, 1, 8], [3, 4, 1, 6], [5, 3, 4, 6], [6, 3, 5, 2], [3, 8, 4, 5]]
+iex(23)> valid_answer = fn answer -> length(answer) == length(uniq(answer)) end
+** (CompileError) iex:23: undefined function uniq/1
+    (stdlib 3.12) lists.erl:1354: :lists.mapfoldl/3
+    (stdlib 3.12) lists.erl:1354: :lists.mapfoldl/3
+    (stdlib 3.12) lists.erl:1355: :lists.mapfoldl/3
+iex(23)> valid_answer = fn answer -> length(answer) == length(Enum.uniq(answer)) end
+#Function<7.126501267/1 in :erl_eval.expr/5>
+iex(24)> Enum.all?(answers, valid_answer)
+true
+iex(25)> answers = Stream.repeatedly(make_answer) |> Enum.take(1000)                
+[
+  [8, 4, 7, 1],
+  [5, 2, 8, 4],
+  [8, 4, 6, 3],
+  [7, 3, 2, 1],
+  [6, 2, 3, 7],
+  [4, 1, 5, 6],
+  [1, 6, 5, 2],
+  [6, 7, 4, 3],
+  [5, 7, 6, 2],
+  [6, 7, 8, 4],
+  [4, 2, 1, 5],
+  [7, 8, 1, 4],
+  [6, 3, 8, 1],
+  [1, 4, 8, 7],
+  [2, 7, 3, 4],
+  [6, 2, 8, 1],
+  [2, 4, 8, 5],
+  [3, 5, 6, 8],
+  [6, 8, 1, 7],
+  [3, 5, 1, 6],
+  [7, 4, 1, 8],
+  [5, 8, 2, 3],
+  [8, 5, 3, 6],
+  [1, 3, 4, 6],
+  [6, 8, 5, 2],
+  [2, 3, 1, 5],
+  [5, 1, 2, 7],
+  [8, 5, 4, 3],
+  [4, 3, 6, 8],
+  [8, 3, 7, 6],
+  [1, 6, 5, 2],
+  [2, 5, 3, 8],
+  [3, 4, 1, 5],
+  [3, 2, 5, 6],
+  [8, 3, 1, 7],
+  [2, 5, 4, 7],
+  [2, 8, 7, 3],
+  [1, 3, 6, 2],
+  [1, 3, 4, 5],
+  [4, 8, 7, 5],
+  [8, 3, 5, 6],
+  [4, 5, 1, 2],
+  [5, 1, 6, 8],
+  [8, 4, 2, 5],
+  [7, 2, 6, 8],
+  [1, 2, 5, 7],
+  [5, 1, 3, ...],
+  [8, 3, ...],
+  [6, ...],
+  [...],
+  ...
+]
+iex(26)> Enum.all?(answers, valid_answer)                           
+true
+```
