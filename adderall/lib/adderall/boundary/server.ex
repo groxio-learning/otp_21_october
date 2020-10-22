@@ -29,4 +29,12 @@ defmodule Adderall.Boundary.Server do
   def handle_cast(:inc, count) do
     {:noreply, Counter.increment(count)}
   end
+
+  # APIs
+
+  def start_link(count), do: GenServer.start_link(__MODULE__, count)
+
+  def increment(counter), do: GenServer.cast(counter, :inc)
+
+  def get(counter), do: GenServer.call(counter, :get)
 end
