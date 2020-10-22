@@ -1,5 +1,4 @@
 defmodule Mindex.Core.Score do
-
   defstruct red: 0, white: 0, guess: [], answer: []
 
   def new(guess \\ [1, 3, 5, 8], answer \\ [1, 2, 3, 4]) do  # add guard to ensure guess and answer have 4 integers each (in the range of 1..8)
@@ -36,5 +35,4 @@ defmodule Mindex.Core.Score do
 
     size_count - red_count - miss_count
   end
-
 end
