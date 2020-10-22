@@ -3,5 +3,5 @@ defmodule Mindex.Core.Score do
 
   def new(guess, answer), do: __struct__
 
-  def score(val), do: to_string(val)
+  def to_string(val), do: to_string(val)
 end
