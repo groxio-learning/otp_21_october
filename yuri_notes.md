@@ -15,9 +15,13 @@ Bees
 
 ## On Data and Functions
 
-* Constructors  -> initiate state (?)
-* Reducers      -> takes an accumulator and returns the transformed accumulator (of the same type)
-* Converters
+* Constructors            -> initiate state (?)
+* Reducers                -> takes an accumulator and returns the transformed accumulator (of the same type)
+* Converters/Transformers
+
+## On API
+
+* Backpressure: slowing down the client requests to avoid overwhelming the server due to how fast it is to pass messages around
 
 ---
 
