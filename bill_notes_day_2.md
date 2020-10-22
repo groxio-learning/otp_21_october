@@ -246,6 +246,28 @@ true
 iex(26)> Enum.all?(answers, valid_answer)
 ```
 
-## Round 4: 
+## Round 4: Build Property Based Tests
 
 **PROPERTY BASED TESTING**
+
+
+```
+
+  describe "new/0 - with property tests" do
+
+  end
+
+  def answers(size) do
+    make_answer = fn -> 1..8 |> Enum.shuffle |> Enum.take(4) end
+    answers = Stream.repeatedly(make_answer) |> Enum.take(size)
+    # [[5, 6, 1, 8], [3, 4, 1, 6], [5, 3, 4, 6], [6, 3, 5, 2], [3, 8, 4, 5]]
+  end
+
+  def valid?(answers) do
+    valid_answer = fn answer -> length(answer) == length(Enum.uniq(answer)) end
+    # valide_answer.(answer)
+    # true
+    Enum.all?(answers, valid_answer)
+  end
+
+```
