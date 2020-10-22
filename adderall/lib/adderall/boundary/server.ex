@@ -30,11 +30,17 @@ defmodule Adderall.Boundary.Server do
     {:noreply, Counter.increment(count)}
   end
 
+  def handle_cast(:boom!, _count) do
+    raise "Boom! 💣"
+  end
+
   # APIs
 
-  def start_link(count), do: GenServer.start_link(__MODULE__, count)
+  def start_link(count), do: GenServer.start_link(__MODULE__, count, name: __MODULE__)
 
-  def increment(counter), do: GenServer.cast(counter, :inc)
+  def increment(counter \\ __MODULE__), do: GenServer.cast(counter, :inc)
 
-  def get(counter), do: GenServer.call(counter, :get)
+  def get(counter \\ __MODULE__), do: GenServer.call(counter, :get)
+
+  def boom!(counter \\ __MODULE__), do: GenServer.cast(counter, :boom!)
 end

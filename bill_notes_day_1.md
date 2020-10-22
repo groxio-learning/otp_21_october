@@ -1,6 +1,6 @@
-Notes for Bill Tihen
+# Day 1: Notes by Bill Tihen
 
-# Core Concepts
+## Core Concepts
 
 **D**o **F**un **T**hings with **B**ig **W**orkerbees
 
@@ -143,10 +143,6 @@ iex -S mix
 1
 ```
 
-## Experiment 1: accounts that can transfer between processes
-
-
-
 
 ## Round 4: using GenServer
 
@@ -185,7 +181,7 @@ update: `vim lib/boundary/server.ex` with API to call handlers
 usage:
 
 ```
-{;ok. counter} = GenServer.start_link(42)
+{:ok, counter} = Server.start_link(42)
 
 :sys.get_state counter
 
@@ -247,3 +243,72 @@ Study the `with` command:
 * https://openmymind.net/Elixirs-With-Statement/
 * https://til.hashrocket.com/posts/ipq42kdcx8-with-statement-has-an-else-clause
 * https://blog.sundaycoding.com/blog/2017/12/27/elixir-with-syntax-and-guard-clauses/
+
+
+## Experiment Day-1: accounts that can transfer between processes
+
+**GenServer - with as a boundary layer to accounts (core)**
+
+```
+> alias Banking.Service
+
+> {:ok, savings} = Service.start_link(1000)
+{:ok, #PID<0.233.0>}
+
+> Service.balance(savings)
+1000
+
+Service.deposit(savings, 500)
+:ok
+
+> Service.balance(savings)     
+1500
+
+
+> {:ok, checking} = Service.start_link(250)
+{:ok, #PID<0.235.0>}
+
+> Service.balance(checking)
+250
+
+> Service.withdrawl(checking,50)
+:ok
+
+> Service.balance(checking)     
+200
+
+Service.transfer(savings, checking, 100)
+:ok
+
+> Service.balance(checking)
+300
+
+> Service.balance(savings)
+1400
+```
+
+**With a context layer:**
+
+lib/banking.ex
+
+USAGE:
+
+```
+iex -S mix
+
+{:ok, checking} =  Banking.open_account(250)
+{:ok, savings}  =  Banking.open_account(2500)
+
+Banking.balance(savings)
+Banking.balance(checking)
+
+Banking.deposit(savings, 500)
+Banking.withdrawl(checking, 50)
+
+Banking.transfer(savings, checking, 150)
+Banking.transfer(savings, checking, 15000)
+
+Banking.balance(savings)
+Banking.balance(checking)
+
+```

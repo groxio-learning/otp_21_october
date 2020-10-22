@@ -1,4 +1,4 @@
-defmodule Adderall.Application do
+defmodule Banking.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -7,13 +7,13 @@ defmodule Adderall.Application do
 
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: Adderall.Worker.start_link(arg)
-      {Adderall.Boundary.Server, Adderall.Core.Counter.new()}
+      # Starts a worker by calling: Banking.Worker.start_link(arg)
+      # {Banking.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Adderall.Supervisor]
+    opts = [strategy: :one_for_one, name: Banking.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end
