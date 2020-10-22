@@ -8,7 +8,7 @@ defmodule Mindex.Application do
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: Mindex.Worker.start_link(arg)
-      # {Mindex.Worker, arg}
+      {Mindex.Boundary.Server, :unused}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
