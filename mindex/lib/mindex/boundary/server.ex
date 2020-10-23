@@ -5,7 +5,7 @@ defmodule Mindex.Boundary.Server do
         #     |
   def init(_unused) do
     IO.puts "Starting #{inspect self()}"
-    {:ok, Board.new()}
+    {:ok, Board.new() |> IO.inspect(label: :init)}
   end
 
   def handle_call({:move, guess}, _from, board) do
@@ -27,6 +27,7 @@ defmodule Mindex.Boundary.Server do
       id: name,
       start: {Mindex.Boundary.Server, :start_link, [name]}
     }
+    |> IO.inspect(label: :child_spec)
   end
 
   def move(name, guess) do

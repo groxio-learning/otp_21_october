@@ -3,16 +3,9 @@ defmodule Mindex do
   Documentation for `Mindex`.
   """
 
-  @doc """
-  Hello world.
+  alias Mindex.Boundary.Server
 
-  ## Examples
-
-      iex> Mindex.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def add_game(name) do
+    DynamicSupervisor.start_child(Chefe, {Server, name})
   end
 end
