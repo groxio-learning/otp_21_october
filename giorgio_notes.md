@@ -87,3 +87,17 @@ Expect to learn:
 - Constructor, reducer, converter (transform into something else) => composable functions.
 - use GenServer to do parallel work, not objects
 - property based tests
+
+## Day 3
+
+- Backpressure
+- When to use supervisor for a lib (dependency)?
+
+Learned:
+- Order of application start: from first to last at mix.exs: application: extra_applications
+- Order of application stop: from last to first at mix.exs: application: extra_applications
+- Policy: independent processes: `:one_for_one`
+- Policy: all dependent: `:one_for_all`
+- Policy: dependent of just after one: `:rest_for_one`
+- When not to use Supervisor?
+- Backpressure: use cast until certain point where it falls back to call in order to slow the calling process down
