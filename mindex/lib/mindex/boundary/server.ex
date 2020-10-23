@@ -1,8 +1,12 @@
 defmodule Mindex.Boundary.Server do
   use GenServer
   alias Mindex.Core.Board
-
-  def init(_board), do: {:ok, Board.new()}
+        #   from the start_link (middle param)
+        #     |
+  def init(_unused) do
+    IO.puts "Starting #{inspect self()}"
+    {:ok, Board.new()}
+  end
 
   def handle_call({:move, guess}, _from, board) do
     new_board = Board.move(board, guess)
@@ -11,13 +15,25 @@ defmodule Mindex.Boundary.Server do
 
   def handle_cast(:boom, _board), do: raise("boom")
 
-  def start_link(board) do
-    GenServer.start_link(__MODULE__, board, name: __MODULE__)
+  def start_link(name) do
+                    #               sent to init
+                    # code reference,  |   server name (must be an atom) (otherwise use via-tuples)
+                    #        |         |            |
+    GenServer.start_link(__MODULE__, :unused, name: name)
   end
 
-  def move(guess) do
-    GenServer.call(__MODULE__, {:move, guess})
+  def child_spec(name) do
+    %{
+      id: name,
+      start: {Mindex.Boundary.Server, :start_link, [name]}
+    }
   end
 
-  def boom(), do: GenServer.cast(__MODULE__, :boom)
+  def move(name, guess) do
+            # server name (in registry)
+            #       |
+    GenServer.call(name, {:move, guess})
+  end
+
+  def boom(name), do: GenServer.cast(name, :boom)
 end
