@@ -92,3 +92,13 @@ It knows how to start and stop things, and their names.
 
 How to decide the first function argument for piping?
 Take a look at the main type of the core.
+
+# Day 3
+
+## Back pressure
+
+Logger uses `handle_cast`, and when the message queue is long,
+it changes to `handle_call` to make the user wait for a response before
+sending another message.
+
+Back pressure -> send the pressure back to the client
